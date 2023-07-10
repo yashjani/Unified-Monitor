@@ -1,0 +1,9 @@
+groups:
+- name: latency
+  rules:
+  - alert: HighRequestLatency
+    expr: histogram_quantile(0.95, sum by (le)(rate(request_latency_seconds_bucket[5m]))) > 0.75
+    for: 2m
+    labels: { severity: warning }
+    annotations:
+      summary: "P95 latency > 750 ms for 2 min"

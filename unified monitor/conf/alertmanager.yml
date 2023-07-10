@@ -1,0 +1,9 @@
+route:
+  receiver: default
+receivers:
+  - name: default
+    slack_configs:
+      - api_url: $SLACK_WEBHOOK    # injected at runtime
+        channel: '#alerts'
+        title: '{{ .CommonAnnotations.summary }}'
+        text: '{{ .CommonLabels }}'

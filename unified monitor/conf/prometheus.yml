@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # auto-discover every running Docker container
+  - job_name: docker
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 10s
+
+  # scrape our demo service & exporter inside the same image
+  - job_name: demo-stack
+    static_configs:
+      - targets: ['localhost:8000', 'localhost:9102']
+
+alerting:
+  alertmanagers:
+    - static_configs: [{ targets: ['localhost:9093'] }]
+
+rule_files: [ '/etc/prometheus/rules.yml' ]
