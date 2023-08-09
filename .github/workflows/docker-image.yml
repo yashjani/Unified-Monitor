@@ -2,17 +2,20 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - uses: actions/checkout@v4
+
+      # Build from the sub-folder that contains Dockerfile
+      - name: Build Docker image
+        run: |
+          docker build \
+            -f "unified monitor/Dockerfile" \         # path to Dockerfile
+            -t yjani204/unified-monitoring:${{ github.sha }} \
+            "unified monitor"                         # build context
