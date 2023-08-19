@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Image CI          # ← workflow name
 
 on:
   push:
@@ -12,10 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Build from the sub-folder that contains Dockerfile
       - name: Build Docker image
-        run: |
-          docker build \
-            -f "unified monitor/Dockerfile" \         # path to Dockerfile
-            -t yjani204/unified-monitoring:${{ github.sha }} \
-            "unified monitor"                         # build context
+        run: >
+          docker build
+          -f 'unified monitor/Dockerfile'
+          -t yjani204/unified-monitoring:${{ github.sha }}
+          'unified monitor'
